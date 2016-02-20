@@ -11,6 +11,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserTableSeeder::class);
+      factory(App\User::class, 100)->create()->each(function($user) {
+          $user->subreddits()->save(factory(App\Subreddit::class)->make());
+          $user->posts()->save(factory(App\Post::class)->make([
+              'subreddit_id' => rand(1,App\Subreddit::all()->count())
+          ]));
+          $user->comments()->save(factory(App\Comment::class)->make([
+              'post_id' => rand(1,App\Post::all()->count())
+          ]));
+          $user->comments()->save(factory(App\Comment::class)->make([
+              'comment_id' => rand(1,App\Comment::all()->count())
+          ]));
+          $user->subscribedsubreddits()->attach(rand(1,App\Subreddit::all()->count()));
+      });
     }
 }

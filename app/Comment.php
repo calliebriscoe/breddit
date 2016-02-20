@@ -30,4 +30,12 @@ class Comment extends Model
         {
             return $this->belongsTo('App\Comment');
         }
+
+        /**
+        * Get the child comments owned by the comment.
+        */
+       public function childComments()
+       {
+           return $this->hasMany('App\Comment');
+       }
 }
