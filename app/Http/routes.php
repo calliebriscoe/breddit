@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('users', 'UsersController');
+Route::resource('subreddits', 'SubredditsController');
+Route::resource('posts', 'PostsController');
+Route::resource('comments', 'CommentsController');
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
