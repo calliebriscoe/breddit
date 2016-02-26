@@ -27,7 +27,7 @@ class Subreddit extends Model
      /**
      * Get the subscribed users of the subreddit.
      */
-     public function subscribedUbers()
+     public function subscribedUsers()
       {
           return $this->belongsToMany('App\User');
       }
