@@ -15,11 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('users', 'UsersController');
-Route::resource('subreddits', 'SubredditsController');
-Route::resource('posts', 'PostsController');
-Route::resource('comments', 'CommentsController');
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -32,5 +27,18 @@ Route::resource('comments', 'CommentsController');
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    Route::auth();
+
+    Route::resource('users', 'UsersController');
+
+    Route::resource('subreddits', 'SubredditsController');
+
+    Route::resource('posts', 'PostsController');
+
+    Route::resource('comments', 'CommentsController');
+
+    Route::group(['middleware' => ['auth']], function () {
+      Route::resource('subreddits', 'SubredditsController');
+
+  });  
 });
