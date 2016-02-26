@@ -16,7 +16,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        return \App\Post::find($id);
     }
 
     /**
@@ -48,7 +48,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        return \App\Post::find($id);
     }
 
     /**
@@ -71,7 +71,9 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = \App\Post::find($id);
+        $post->title = $request->title;
+
     }
 
     /**

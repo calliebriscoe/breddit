@@ -38,7 +38,7 @@ class SubredditsController extends Controller
     public function store(Request $request)
     {
         $subreddit = new App\Subreddit;
-        $subreddit->user_id = $request->user_id;
+        $subreddit->users_id = $request->users_id;
         $subreddit->title = $request->title;
 
         return $subreddit;
