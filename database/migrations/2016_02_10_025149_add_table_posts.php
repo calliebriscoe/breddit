@@ -16,7 +16,7 @@ class AddTablePosts extends Migration
             $table->increments('id');
             $table->integer('users_id')->unsigned();
             $table->integer('subreddits_id')->unsigned();
-            $table->string('title')->unique();
+            $table->string('title');
             $table->text('content');
             $table->string('url');
             $table->timestamps();
