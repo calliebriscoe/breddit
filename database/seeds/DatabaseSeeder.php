@@ -1,7 +1,5 @@
 <?php
-
 use Illuminate\Database\Seeder;
-
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -11,18 +9,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-      factory(App\User::class, 50)->create()->each(function($user) {
-          $user->subreddits()->save(factory(App\Subreddit::class)->make());
-          $user->posts()->save(factory(App\Post::class)->make([
-              'subreddits_id' => rand(1,App\Subreddit::all()->count())
-          ]));
-          $user->comments()->save(factory(App\Comment::class)->make([
-              'posts_id' => rand(1,App\Post::all()->count())
-          ]));
-          $user->comments()->save(factory(App\Comment::class)->make([
-              'comments_id' => rand(1,App\Comment::all()->count())
-          ]));
-          $user->subscribedsubreddits()->attach(rand(1,App\Subreddit::all()->count()));
-      });
+        factory(App\User::class, 50)->create()->each(function($user) {
+            $user->subbreddits()->save(factory(App\Subbreddit::class)->make());
+            $user->posts()->save(factory(App\Post::class)->make([
+                'subbreddit_id' => rand(1,App\Subbreddit::all()->count())
+            ]));
+            $user->comments()->save(factory(App\Comment::class)->make([
+                'post_id' => rand(1,App\Post::all()->count())
+            ]));
+            $user->comments()->save(factory(App\Comment::class)->make([
+                'comment_id' => rand(1,App\Comment::all()->count())
+            ]));
+            $user->subscribedSubbreddits()->attach(rand(1,App\Subbreddit::all()->count()));
+        });
     }
 }
