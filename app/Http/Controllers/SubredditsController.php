@@ -1,13 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-class SubredditsController extends Controller
+class SubbredditsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,19 +12,8 @@ class SubredditsController extends Controller
      */
     public function index()
     {
-        return \App\Subreddit::all();
+        return \App\Subbreddit::all();
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -37,13 +22,13 @@ class SubredditsController extends Controller
      */
     public function store(Request $request)
     {
-        $subreddit = new App\Subreddit;
-        $subreddit->users_id = $request->users_id;
-        $subreddit->title = $request->title;
-
-        return $subreddit;
+        $subbreddit = new \App\Subbreddit;
+        $subbreddit->user_id = \Auth::user()->id;
+        $subbreddit->name = $request->name;
+        $subbreddit->description = $request->description;
+        $subbreddit->save();
+        return $subbreddit;
     }
-
     /**
      * Display the specified resource.
      *
@@ -52,20 +37,11 @@ class SubredditsController extends Controller
      */
     public function show($id)
     {
-        //
+        return \App\Subbreddit::with([
+            'posts.comments.childComments',
+            'user'
+        ])->find($id);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -75,9 +51,16 @@ class SubredditsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $subbreddit = \App\Subbreddit::find($id);
+        if ($subbreddit->user_id == \Auth::user()->id) {
+            $subbreddit->name = $request->name;
+            $subbreddit->description = $request->description;
+            $subbreddit->save();
+        } else {
+            return response("Unauthorized", 403);
+        }
+        return $subbreddit;
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -86,6 +69,12 @@ class SubredditsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $subbreddit = \App\Subbreddit::find($id);
+        if ($subbreddit->user_id == \Auth::user()->id) {
+            $subbreddit->delete();
+        } else {
+            return response("Unauthorized", 403);
+        }
+        return $subbreddit;
     }
 }
